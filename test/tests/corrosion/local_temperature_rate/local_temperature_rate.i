@@ -6,11 +6,18 @@
   []
 []
 
-[AuxVariables]
+# This is an initialization-only diagnostic test; no nonlinear solve is needed.
+[Problem]
+  solve = false
+[]
+
+[Variables]
   [temperature]
-    family = MONOMIAL
-    order = CONSTANT
+    type = MooseVariableFVReal
   []
+[]
+
+[AuxVariables]
   [corrosion_rate_um_y]
     family = MONOMIAL
     order = CONSTANT
@@ -24,9 +31,9 @@
   []
 []
 
-[ICs]
+[FVICs]
   [temperature]
-    type = FunctionIC
+    type = FVFunctionIC
     variable = temperature
     function = local_temperature
   []
@@ -51,24 +58,27 @@
     type = PointValue
     variable = temperature
     point = '0.25 0 0'
+    execute_on = INITIAL
   []
   [temperature_hot]
     type = PointValue
     variable = temperature
     point = '0.75 0 0'
+    execute_on = INITIAL
   []
   [rate_cold]
     type = PointValue
     variable = corrosion_rate_um_y
     point = '0.25 0 0'
+    execute_on = INITIAL
   []
   [rate_hot]
     type = PointValue
     variable = corrosion_rate_um_y
     point = '0.75 0 0'
+    execute_on = INITIAL
   []
 []
-
 [Executioner]
   type = Steady
 []
