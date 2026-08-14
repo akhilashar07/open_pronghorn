@@ -69,6 +69,30 @@ TEST(MoltenSaltCorrosionModel, msreBaselineCase)
               0.057830226907234918);
 }
 
+TEST(MoltenSaltCorrosionModel, localTemperatureRates)
+{
+  // These are also the gold values for the local-temperature AuxKernel test. Computing them here
+  // directly proves that the spatial diagnostic uses the shared model rather than a copied formula.
+  const auto db = loadDatabase();
+  Corrosion::MoltenSaltCorrosionModel model(db);
+
+  Corrosion::CorrosionFeatures f;
+  f.material_class = "hastelloy_n";
+  f.salt_class = "fluoride_fuel";
+  f.redox_class = "purified_baseline";
+  f.flow_factor = 0.75;
+  f.delta_T_C = 50.0;
+
+  f.temperature_K = 850.0;
+  const Real cold_rate = model.corrosionRateUmY(f);
+  expectClose(cold_rate, 0.4687102201724702);
+
+  f.temperature_K = 1050.0;
+  const Real hot_rate = model.corrosionRateUmY(f);
+  expectClose(hot_rate, 2.0543316562694414);
+  EXPECT_GT(hot_rate, cold_rate);
+}
+
 TEST(MoltenSaltCorrosionModel, stainlessHotLoopCase)
 {
   // Reference case ORNL-FL-01: 304L stainless, hot fluoride loop with a large thermal gradient.
