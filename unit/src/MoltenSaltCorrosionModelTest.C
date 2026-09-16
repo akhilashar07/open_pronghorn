@@ -93,6 +93,27 @@ TEST(MoltenSaltCorrosionModel, localTemperatureRates)
   EXPECT_GT(hot_rate, cold_rate);
 }
 
+TEST(MoltenSaltCorrosionModel, igcDepthFromAccumulatedCorrosionDepth)
+{
+  const auto db = loadDatabase();
+  Corrosion::MoltenSaltCorrosionModel model(db);
+
+  Corrosion::CorrosionFeatures f;
+  f.material_class = "hastelloy_n";
+  f.salt_class = "fluoride_fuel";
+  f.redox_class = "oxidizing_fef2";
+  f.position_class = "nominal";
+  f.temperature_K = 977.15;
+  f.flow_factor = 1.0;
+  f.delta_T_C = 166.0;
+  f.time_years = 0.3308236367784622;
+
+  const Real corrosion_depth = model.corrosionDepthUm(f);
+  expectClose(model.igcDepthFromCorrosionDepthUm(f, corrosion_depth), 10.13716839696114);
+  expectClose(model.igcDepthUm(f), model.igcDepthFromCorrosionDepthUm(f, corrosion_depth));
+  EXPECT_DOUBLE_EQ(model.igcDepthFromCorrosionDepthUm(f, 0.0), 0.0);
+}
+
 TEST(MoltenSaltCorrosionModel, stainlessHotLoopCase)
 {
   // Reference case ORNL-FL-01: 304L stainless, hot fluoride loop with a large thermal gradient.

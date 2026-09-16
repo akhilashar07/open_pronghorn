@@ -1,0 +1,11 @@
+[Tests]
+  design = 'MoltenSaltIGCDepthAux.md'
+  issues = '#000'
+  [accumulated_igc_depth]
+    type = CSVDiff
+    input = accumulated_igc_depth.i
+    csvdiff = accumulated_igc_depth_out.csv
+    requirement = 'The molten-salt IGC diagnostic shall evaluate the shared reduced-order model '
+                  'using an already accumulated uniform corrosion-depth functor.'
+  []
+[]
