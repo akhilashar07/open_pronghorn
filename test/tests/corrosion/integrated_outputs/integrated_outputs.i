@@ -23,6 +23,10 @@ seconds_per_year = 31557600
     family = MONOMIAL
     order = CONSTANT
   []
+  [cr_released_mg_cm2]
+    family = MONOMIAL
+    order = CONSTANT
+  []
   [deposition_rate_um_y]
     family = MONOMIAL
     order = CONSTANT
@@ -74,6 +78,13 @@ seconds_per_year = 31557600
     material_class = hastelloy_n
     execute_on = 'INITIAL TIMESTEP_END'
   []
+  [cr_release]
+    type = MoltenSaltCrReleaseAux
+    variable = cr_released_mg_cm2
+    mass_loss = mass_loss_mg_cm2
+    material_class = hastelloy_n
+    execute_on = 'INITIAL TIMESTEP_END'
+  []
   [deposition_rate]
     type = MoltenSaltDepositionRateAux
     variable = deposition_rate_um_y
@@ -118,6 +129,11 @@ seconds_per_year = 31557600
   [mass_loss]
     type = ElementAverageValue
     variable = mass_loss_mg_cm2
+    execute_on = 'INITIAL TIMESTEP_END'
+  []
+  [cr_release]
+    type = ElementAverageValue
+    variable = cr_released_mg_cm2
     execute_on = 'INITIAL TIMESTEP_END'
   []
   [deposition_rate]

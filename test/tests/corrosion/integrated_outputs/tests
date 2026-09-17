@@ -1,12 +1,12 @@
 [Tests]
-  design = 'MoltenSaltDepositionRateAux.md MoltenSaltMassChangeAux.md'
+  design = 'MoltenSaltDepositionRateAux.md MoltenSaltMassChangeAux.md MoltenSaltCrReleaseAux.md'
   issues = '#000'
   [integrated_outputs]
     type = CSVDiff
     input = integrated_outputs.i
     csvdiff = integrated_outputs_out.csv
-    requirement = 'The molten-salt diagnostics shall integrate corrosion and deposition rates and '
-                  'convert their current accumulated depths to areal mass loss and gain at every '
-                  'timestep.'
+    requirement = 'The molten-salt diagnostics shall integrate corrosion and deposition rates, '
+                  'convert their current accumulated depths to areal mass change, and compute the '
+                  'alloy-specific chromium release at every timestep.'
   []
 []

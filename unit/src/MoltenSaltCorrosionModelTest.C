@@ -135,6 +135,21 @@ TEST(MoltenSaltCorrosionModel, massChangeFromAccumulatedDepth)
   expectClose(model.massGainFromDepositionDepthUm(f, 3.0), 2.667);
 }
 
+TEST(MoltenSaltCorrosionModel, chromiumReleaseFromMassLoss)
+{
+  const auto db = loadDatabase();
+  Corrosion::MoltenSaltCorrosionModel model(db);
+
+  Corrosion::CorrosionFeatures stainless;
+  stainless.material_class = "stainless_316";
+  expectClose(model.crReleasedFromMassLossMgCm2(stainless, 2.5), 0.425);
+  EXPECT_DOUBLE_EQ(model.crReleasedFromMassLossMgCm2(stainless, 0.0), 0.0);
+
+  Corrosion::CorrosionFeatures hastelloy;
+  hastelloy.material_class = "hastelloy_n";
+  expectClose(model.crReleasedFromMassLossMgCm2(hastelloy, 2.5), 0.175);
+}
+
 TEST(MoltenSaltCorrosionModel, stainlessHotLoopCase)
 {
   // Reference case ORNL-FL-01: 304L stainless, hot fluoride loop with a large thermal gradient.

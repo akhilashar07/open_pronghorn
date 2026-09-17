@@ -235,6 +235,13 @@ MoltenSaltCorrosionModel::massLossMgCm2(const CorrosionFeatures & feat) const
 }
 
 Real
+MoltenSaltCorrosionModel::crReleasedFromMassLossMgCm2(const CorrosionFeatures & feat,
+                                                      Real mass_loss_mg_cm2) const
+{
+  return _db.crWeightFraction(feat.material_class) * mass_loss_mg_cm2;
+}
+
+Real
 MoltenSaltCorrosionModel::depositionRateUmY(const CorrosionFeatures & feat,
                                             const std::string & surface_override) const
 {

@@ -121,6 +121,9 @@ public:
   Real massLossFromCorrosionDepthUm(const CorrosionFeatures & feat,
                                     Real corrosion_depth_um) const;
   Real massLossMgCm2(const CorrosionFeatures & feat) const;
+  /// Chromium released [mg/cm^2] from an areal alloy mass loss [mg/cm^2].
+  Real crReleasedFromMassLossMgCm2(const CorrosionFeatures & feat,
+                                   Real mass_loss_mg_cm2) const;
 
   // --- Deposition / plating branch ------------------------------------------------------------
   Real depositionRateUmY(const CorrosionFeatures & feat,
