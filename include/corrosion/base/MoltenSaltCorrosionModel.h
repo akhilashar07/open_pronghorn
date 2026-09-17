@@ -117,12 +117,18 @@ public:
   Real igcDepthFromCorrosionDepthUm(const CorrosionFeatures & feat,
                                     Real corrosion_depth_um) const;
   Real igcDepthUm(const CorrosionFeatures & feat) const;
+  /// Areal mass loss [mg/cm^2] corresponding to an accumulated corrosion depth [um].
+  Real massLossFromCorrosionDepthUm(const CorrosionFeatures & feat,
+                                    Real corrosion_depth_um) const;
   Real massLossMgCm2(const CorrosionFeatures & feat) const;
 
   // --- Deposition / plating branch ------------------------------------------------------------
   Real depositionRateUmY(const CorrosionFeatures & feat,
                          const std::string & surface_override = "") const;
   Real depositionDepthUm(const CorrosionFeatures & feat) const;
+  /// Areal mass gain [mg/cm^2] corresponding to an accumulated deposition depth [um].
+  Real massGainFromDepositionDepthUm(const CorrosionFeatures & feat,
+                                     Real deposition_depth_um) const;
   Real massGainMgCm2(const CorrosionFeatures & feat) const;
   DepositionRanking depositionRanking(const CorrosionFeatures & feat) const;
 

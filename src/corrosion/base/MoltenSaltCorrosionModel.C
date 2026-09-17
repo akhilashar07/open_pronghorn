@@ -222,9 +222,16 @@ MoltenSaltCorrosionModel::igcDepthUm(const CorrosionFeatures & feat) const
 }
 
 Real
+MoltenSaltCorrosionModel::massLossFromCorrosionDepthUm(const CorrosionFeatures & feat,
+                                                       Real corrosion_depth_um) const
+{
+  return umToMgCm2(corrosion_depth_um, _db.density(feat.material_class));
+}
+
+Real
 MoltenSaltCorrosionModel::massLossMgCm2(const CorrosionFeatures & feat) const
 {
-  return umToMgCm2(corrosionDepthUm(feat), _db.density(feat.material_class));
+  return massLossFromCorrosionDepthUm(feat, corrosionDepthUm(feat));
 }
 
 Real
@@ -272,9 +279,16 @@ MoltenSaltCorrosionModel::depositionDepthUm(const CorrosionFeatures & feat) cons
 }
 
 Real
+MoltenSaltCorrosionModel::massGainFromDepositionDepthUm(const CorrosionFeatures & feat,
+                                                        Real deposition_depth_um) const
+{
+  return umToMgCm2(deposition_depth_um, _db.density(feat.material_class));
+}
+
+Real
 MoltenSaltCorrosionModel::massGainMgCm2(const CorrosionFeatures & feat) const
 {
-  return umToMgCm2(depositionDepthUm(feat), _db.density(feat.material_class));
+  return massGainFromDepositionDepthUm(feat, depositionDepthUm(feat));
 }
 
 DepositionRanking
