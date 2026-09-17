@@ -12,9 +12,9 @@ MoltenSaltIGCDepthAux::validParams()
 {
   InputParameters params = AuxKernel::validParams();
   params.addClassDescription("Evaluates MoltenSaltCorrosionModel::igcDepthFromCorrosionDepthUm() "
-                             "from an accumulated uniform corrosion-depth functor.");
-  params.addRequiredParam<MooseFunctorName>(
-      "corrosion_depth", "Accumulated uniform corrosion-depth functor [um].");
+                             "from an accumulated uniform corrosion-depth variable.");
+  params.addRequiredCoupledVar("corrosion_depth",
+                               "Accumulated uniform corrosion-depth variable [um].");
   params.addParam<DataFileName>(
       "database", "corrosion_database.json", "JSON molten-salt corrosion database.");
   params.addParam<std::string>("salt_class", "generic_salt", "Salt class.");
@@ -25,7 +25,7 @@ MoltenSaltIGCDepthAux::validParams()
 
 MoltenSaltIGCDepthAux::MoltenSaltIGCDepthAux(const InputParameters & parameters)
   : AuxKernel(parameters),
-    _corrosion_depth(getFunctor<Real>("corrosion_depth")),
+    _corrosion_depth(coupledValue("corrosion_depth")),
     _database(getParam<DataFileName>("database")),
     _model(_database)
 {
@@ -39,7 +39,5 @@ MoltenSaltIGCDepthAux::MoltenSaltIGCDepthAux(const InputParameters & parameters)
 Real
 MoltenSaltIGCDepthAux::computeValue()
 {
-  const Moose::ElemQpArg qp_arg = {_current_elem, _qp, _qrule, _q_point[_qp]};
-  const Real corrosion_depth_um = _corrosion_depth(qp_arg, determineState());
-  return _model.igcDepthFromCorrosionDepthUm(_features, corrosion_depth_um);
+  return _model.igcDepthFromCorrosionDepthUm(_features, _corrosion_depth[_qp]);
 }

@@ -10,7 +10,7 @@
 #include "MoltenSaltCorrosionModel.h"
 
 /**
- * Evaluates IGC depth from an already accumulated uniform corrosion-depth functor.
+ * Evaluates IGC depth from an already accumulated uniform corrosion-depth variable.
  */
 class MoltenSaltIGCDepthAux : public AuxKernel
 {
@@ -22,7 +22,7 @@ public:
 protected:
   Real computeValue() override;
 
-  const Moose::Functor<Real> & _corrosion_depth;
+  const VariableValue & _corrosion_depth;
   Corrosion::MoltenSaltCorrosionDatabase _database;
   Corrosion::MoltenSaltCorrosionModel _model;
   Corrosion::CorrosionFeatures _features;

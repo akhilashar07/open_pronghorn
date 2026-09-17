@@ -3,7 +3,7 @@
 !syntax description /AuxKernels/MoltenSaltIGCDepthAux
 
 This elemental diagnostic applies the reduced-order model's calibrated IGC-depth relation to an
-already accumulated uniform corrosion-depth functor. It does not multiply the current corrosion rate
+already accumulated uniform corrosion-depth variable. It does not multiply the current corrosion rate
 by the total reactor time; the input field is expected to contain the integrated corrosion-rate
 history. For example:
 
@@ -19,9 +19,10 @@ history. For example:
 []
 ```
 
-The output variable must be elemental. The named `corrosion_depth` may be any scalar functor,
-including an elemental FV variable. The calibrated morphology equation and damage parameters remain
-in `MoltenSaltCorrosionModel`.
+The output and coupled `corrosion_depth` variables must be elemental. Standard variable coupling
+allows MOOSE to execute the AuxKernel that produces `corrosion_depth` before this diagnostic at each
+execution point. The calibrated morphology equation and damage parameters remain in
+`MoltenSaltCorrosionModel`.
 
 !syntax parameters /AuxKernels/MoltenSaltIGCDepthAux
 
